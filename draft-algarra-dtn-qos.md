@@ -30,14 +30,11 @@ author:
 
 normative:
   RFC9171: https://www.rfc-editor.org/info/rfc9171
-  RFC2119: https://www.rfc-editor.org/info/rfc2119
-  RFC8174: https://www.rfc-editor.org/info/rfc8174
   RFC9172: https://www.rfc-editor.org/info/rfc9172
   RFC8949: https://www.rfc-editor.org/info/rfc8949
----
-# Abstract
+--- abstract
 
-This document defines a Quality of Service (QoS) Extension Block for the Bundle Protocol Version 7 (BPv7).The QoS Extension Block enables users to request and indicate QoS parameters, such as traffic prioritization, retransmission, latest-only delivery, and bundle retention preference.The purpose of this extension is to enhance the efficiency of bundle forwarding and delivery according to user requirements while maintaining interoperability with existing BP implementations.
+This document defines a Quality of Service (QoS) Extension Block for the Bundle Protocol Version 7 (BPv7). The QoS Extension Block enables users to request and indicate QoS parameters, such as traffic prioritization, retransmission, latest-only delivery, and bundle retention preference. The purpose of this extension is to enhance the efficiency of bundle forwarding and delivery according to user requirements while maintaining interoperability with existing BP implementations.
 
 --- middle
 
