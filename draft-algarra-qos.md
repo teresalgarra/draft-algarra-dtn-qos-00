@@ -35,7 +35,7 @@ normative:
   RFC9172: https://www.rfc-editor.org/info/rfc9172
   RFC8949: https://www.rfc-editor.org/info/rfc8949
 ---
-abstract
+# Abstract
 
 This document defines a Quality of Service (QoS) Extension Block for the Bundle Protocol Version 7 (BPv7).The QoS Extension Block enables users to request and indicate QoS parameters, such as traffic prioritization, retransmission, latest-only delivery, and bundle retention preference.The purpose of this extension is to enhance the efficiency of bundle forwarding and delivery according to user requirements while maintaining interoperability with existing BP implementations.
 
@@ -77,7 +77,7 @@ Integrity and authentication MUST be ensured for the extension block. A Bundle I
 
 There will be an image here.
 
-The block type code MUST be <xx>.
+The block type code MUST be assigned.
 The block processing control flags Bit 1, Bit 2 and Bit 4 MAY be set to ‘0’ to allow bundle nodes not supporting this extension block to pass it transparently.
 The block-type-specific data MUST be encoded as a definite-length CBOR [RFC8949] byte string containing a definite-length CBOR map, with each map key identifying a QoS parameter, and the associated value specifying its setting.
 A new IANA registry, "UQEB Parameters", is defined for the registration of QoS parameters and the associated values; see Section 5.1.
