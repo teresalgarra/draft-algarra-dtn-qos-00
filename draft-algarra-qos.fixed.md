@@ -30,11 +30,11 @@ author:
     email: your.email@example.com
 
 normative:
-- [RFC9171] S. Burleigh, K. Fall, and E. Birrane, "RFC 9171: Bundle Protocol Version 7", DOI 10.17487/RFC9171, January 2022.
-- [RFC2119] S. Bradner, "RFC2119: Key words for use in RFCs to Indicate Requirement Levels", DOI 10.17487/RFC2119, March 1997.
-- [RFC8174] B. Leiba, "RFC 8174: Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words", DOI 10.17487/RFC8174, May 2017.
-- [RFC9172] E. Birrane , K. McKeever, “RFC 9172: Bundle Protocol Security (BPSec)”, DOI 10.17487/RFC9172, January 2022.
-- [RFC8949] C. Bormann, and P. Hoffman, "RFC 8949: Concise Binary Object Representation (CBOR)", DOI 10.17487/RFC8949, December 2020.
+  - "[RFC9171] S. Burleigh, K. Fall, and E. Birrane, \"RFC 9171: Bundle Protocol Version 7\", DOI 10.17487/RFC9171, January 2022."
+  - "[RFC2119] S. Bradner, \"RFC2119: Key words for use in RFCs to Indicate Requirement Levels\", DOI 10.17487/RFC2119, March 1997."
+  - "[RFC8174] B. Leiba, \"RFC 8174: Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words\", DOI 10.17487/RFC8174, May 2017."
+  - "[RFC9172] E. Birrane , K. McKeever, “RFC 9172: Bundle Protocol Security (BPSec)”, DOI 10.17487/RFC9172, January 2022."
+  - "[RFC8949] C. Bormann, and P. Hoffman, \"RFC 8949: Concise Binary Object Representation (CBOR)\", DOI 10.17487/RFC8949, December 2020."
 ---
 --- abstract
 
@@ -76,7 +76,7 @@ The UQEB MUST be added only by the source node of a bundle.
 The UQEB MUST NOT be modified by any other node.
 Integrity and authentication MUST be ensured for the extension block. A Bundle Integrity Block (BIB) as defined in [RFC9172] MAY be used, unless an external system can guarantee the same results.
 
-There will be an image here.
+[[[AD .SVG HERE]]]
 
 The block type code MUST be <xx>.
 The block processing control flags Bit 1, Bit 2 and Bit 4 MAY be set to ‘0’ to allow bundle nodes not supporting this extension block to pass it transparently.
@@ -85,7 +85,7 @@ A new IANA registry, "UQEB Parameters", is defined for the registration of QoS p
 Each QoS parameter MAY appear if needed, but does not need to.
 Each QoS parameter MUST NOT appear more than once.
 
-There will be an image here.
+[[[AD .SVG HERE]]]
 
 ## QoS Parameters
 
