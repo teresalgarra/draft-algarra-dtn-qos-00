@@ -1,0 +1,431 @@
+
+
+
+
+dtn                                                           Y. N. Here
+Internet-Draft                                    Your Organization Here
+Intended status: Standards Track                        14 November 2025
+Expires: 18 May 2026
+
+
+         Quality of Service Extension Block for Bundle Protocol
+                      draft-algarra-dtn-qos-latest
+
+Abstract
+
+   This document defines a Quality of Service (QoS) Extension Block for
+   the Bundle Protocol Version 7 (BPv7).  The QoS Extension Block
+   enables users to request and indicate QoS parameters, such as traffic
+   prioritization, retransmission, latest-only delivery, and bundle
+   retention preference.  The purpose of this extension is to enhance
+   the efficiency of bundle forwarding and delivery according to user
+   requirements while maintaining interoperability with existing BP
+   implementations.
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   The latest revision of this draft can be found at
+   https://example.com/LATEST.  Status information for this document may
+   be found at https://datatracker.ietf.org/doc/draft-algarra-dtn-qos/.
+
+   Discussion of this document takes place on the WG Working Group
+   mailing list (mailto:WG@example.com), which is archived at
+   https://example.com/WG.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/USER/REPO.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 18 May 2026.
+
+Copyright Notice
+
+   Copyright (c) 2025 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Conventions and Definitions
+   3.  Description
+     3.1.  Definitions
+     3.2.  Extension Block Description
+     3.3.  QoS Parameters
+       3.3.1.  Traffic Prioritization
+       3.3.2.  Retransmission
+       3.3.3.  Latest-Only Delivery
+       3.3.4.  Bundle Retention
+   4.  Security Considerations
+     4.1.  Concerns About the Manipulation of the Extension Block
+     4.2.  Concerns About Malicious Behavior
+   5.  IANA Considerations
+     5.1.  QoS Parameters Registry
+     5.2.  Traffic Prioritization Registry
+     5.3.  Retransmission Registry
+     5.4.  Latest-Only Delivery Registry
+     5.5.  Bundle Retention Registry
+   6.  Normative References
+   Acknowledgments
+   Author's Address
+
+1.  Introduction
+
+   This document describes the structure of an extension block for
+   Bundle Protocol Version 7 (BPv7) as defined in [RFC9171].  It can be
+   added to a bundle to signal user-requested QoS parameters which
+   indicate to the nodes how to handle the bundle based on the desired
+   QoS characteristics.
+
+   QoS mechanisms enhance the efficiency of communications over
+   constrained networks by prioritizing traffic, reducing unnecessary
+   retransmissions, and enabling context-aware bundle handling.  In
+   environments like space, latencies are high, contacts intermittent
+   and bandwidth and storage limited, making QoS signaling essential to
+   effective resource management.
+
+   BPv7 does not include intrinsic QoS signaling, so there is therefore
+   a need for a standardized manner for QoS preferences to be indicated.
+   The QoS parameters supported by this specification include: - Traffic
+   Prioritization: bundle forwarding precedence. - Retransmission:
+   desired use of reliable or unreliable convergence layers and
+   underlying protocols. - Latest-Only Delivery: indication to drop
+   outdated information from the same flow. - Bundle Storage: deletion
+   order preference when node storage is full.
+
+2.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+3.  Description
+
+3.1.  Definitions
+
+   *  User: entity or set of entities operating under the same SLA using
+      the network for sending data from a single or multiple sources to
+      a single or multiple destinations.
+
+   *  Priority class: level of urgency assigned to a bundle, helping to
+      determine the order in which it should be forwarded.
+
+   *  Sub-priority class: secondary level of prioritization used to
+      further classify bundles within a main priority class, adding
+      granularity based on relative urgency within a priority class.
+
+   *  Transmission volume: aggregate total size of bundles transmitted
+      across a link, measured in bytes.
+
+3.2.  Extension Block Description
+
+   The User QoS Extension Block (UQEB) MUST follow the canonical bundle
+   block format defined in [RFC9171].  The UQEB MUST be added only by
+   the source node of a bundle.  The UQEB MUST NOT be modified by any
+   other node.  Integrity and authentication MUST be ensured for the
+   extension block.  A Bundle Integrity Block (BIB) as defined in
+   [RFC9172] MAY be used, unless an external system can guarantee the
+   same results.
+
+   There will be an image here.
+
+   The block type code MUST be assigned.  The block processing control
+   flags Bit 1, Bit 2 and Bit 4 MAY be set to ‘0’ to allow bundle nodes
+   not supporting this extension block to pass it transparently.  The
+   block-type-specific data MUST be encoded as a definite-length CBOR
+   [RFC8949] byte string containing a definite-length CBOR map, with
+   each map key identifying a QoS parameter, and the associated value
+   specifying its setting.  A new IANA registry, "UQEB Parameters", is
+   defined for the registration of QoS parameters and the associated
+   values; see Section 5.1.  Each QoS parameter MAY appear if needed,
+   but does not need to.  Each QoS parameter MUST NOT appear more than
+   once.
+
+   There will be an image here.
+
+3.3.  QoS Parameters
+
+3.3.1.  Traffic Prioritization
+
+   Traffic prioritization (value 0 in the QoS Parameter Registry in
+   Section 5.1) determines the forwarding order when multiple bundles
+   are queued.  A new IANA registry, "Traffic Prioritization", is
+   defined for the registration of traffic prioritization classes and
+   the associated values; see Section 5.2.  Bundles marked as expedited
+   (value 0 in the Traffic Prioritization Registry in Section 5.2) MUST
+   be forwarded before any other bundles from the same user.  Bundles
+   marked normal (values 1 to 4 in the Traffic Prioritization Registry
+   in Section 5.2) MUST be forwarded before bulk bundles from that user.
+   Bundles marked bulk (values 5 to 8 in the Traffic Prioritization
+   Registry in Section 5.2) MUST NOT be forwarded if expedited or normal
+   bundles from the user are present.  In the case of several bundles
+   with the same priority class and the same sub-priority class, they
+   SHOULD be forwarded in a First-In, First-Out (FIFO) basis.  In the
+   case of several bundles with the same priority class but different
+   sub-priority classes, priority MUST decrease in ascending order.  A
+   volume-based fair scheduling algorithm MAY be used to avoid data
+   starvation.  Priorities SHOULD be used to inform the selection of
+   parameters for underlying convergence layers if those implement
+   priority schemes.  Bundles without a priority marking MUST be treated
+   as having value 5 (default bulk).
+
+3.3.2.  Retransmission
+
+   The retransmission parameter (value 1 in the QoS Parameter Registry
+   in Section 5.1) defines whether an underlying protocol stack that
+   provides retransmission shall be used.  A new IANA registry,
+   "Retransmission", is defined for the registration of retransmission
+   requirements and the associated values; see Section 5.3.  Bundles
+   marked as retransmission required (value 1 in the Retransmission
+   Registry in Section 5.3) MUST be dispatched via a protocol stack
+   which applies retransmission in case of data loss.  Bundles marked as
+   retransmission if possible (value 2 in the Retransmission Registry in
+   Section 5.3) MAY be dispatched via a protocol stack which applies
+   retransmission in case of data loss if currently available, and via a
+   protocol stack which doesn’t if none is available.  Bundles marked as
+   no retransmission allowed (value -1 in the Retransmission Registry in
+   Section 5.3) MUST be dispatched via a protocol stack which does not
+   apply retransmission in case of data loss.  Bundles marked as no
+   retransmission if possible (value -2 in the Retransmission Registry
+   in Section 5.3) SHOULD be dispatched via a protocol stack which does
+   not apply retransmission in case of data loss if currently available,
+   and via a protocol stack which does if none is available.  Bundles
+   without a retransmission marking or where the indication is
+   unspecified (value 0 in the Retransmission Registry in Section 5.3),
+   the implementation SHOULD use the default option available.
+
+3.3.3.  Latest-Only Delivery
+
+   Latest-only delivery (value 2 in the QoS Parameter Registry in
+   Section 5.1) prevents the transmission of old information if newer
+   information is available.  A new IANA registry, "Latest-Only
+   Delivery", is defined for the registration of retransmission
+   requirements and the associated values; see Section 5.4.  Bundles
+   marked as all (value 0 in the Latest-Only Delivery Registry in
+   Section 5.4) MUST proceed as usual.  Bundles marked as latest-only
+   (value 1 in the Latest-Only Delivery Registry in Section 5.4) MUST be
+   discarded if a bundle with the same source node ID, destination
+   endpoint ID, and a newer creation time is available.  Bundles without
+   a lates-only marking MUST be treated as having value 0 (all).  The
+   latest bundle MUST be forwarded at the time the oldest discarded
+   bundle would have been forwarded.
+
+3.3.4.  Bundle Retention
+
+   The bundle retention parameter (value 3 in the QoS Parameter Registry
+   in Section 5.1) indicates the deletion order if a node runs out of
+   storage for the user.  A new IANA registry, "Bundle Retention", is
+   defined for the registration of retransmission requirements and the
+   associated values; see Section 5.5.  Bundles marked as a certain
+   class MUST NOT be deleted if bundles with a higher class value are in
+   the storage.  In case of several bundles of the same class, deletion
+   MUST be performed starting with the shortest time to live left.
+   Bundles without a bundle retention marking MUST be treated as having
+   value 12.
+
+4.  Security Considerations
+
+4.1.  Concerns About the Manipulation of the Extension Block
+
+   There is a concern that intermediate nodes may intentionally or
+   unintentionally alter the information contained in the UQEB.  This
+   may result in bundles being forwarded in the incorrect order, or
+   dropped inappropriately.  Such manipulation could even be used to
+   deny service to legitimate traffic or to gain preferential treatment
+   for unauthorized bundles.  Therefore, the integrity and authenticity
+   protection of the UQEB MUST be ensured.  BPSec as specified in
+   [RFC9172] SHOULD be used, unless an external system can provide the
+   same degree of protection.
+
+4.2.  Concerns About Malicious Behavior
+
+   The UQEB indicated desired handling and forwarding behavior, which
+   could be exploited by malicious actors to monopolize network
+   resources.  For example, a malicious node could mark all bundles as
+   expedited in order to monopolize link capacity, or repeatedly request
+   retransmission in extremely asymmetric links, congesting the network
+   segment.  To prevent this, implementations SHOULD include mechanisms
+   such as authentication of the originating node, access controls that
+   restrict use of certain QoS parameters, and rate-limiting on users
+   marked as suspicious of being malicious or abusive.  Nodes SHOULD
+   also apply local or network checks to determine whether a requesting
+   user is authorized to receive particular QoS capabilities.  If a UQEB
+   is found to violate policy constraints, implementations SHOULD ignore
+   the requested handling.
+
+5.  IANA Considerations
+
+   The following sections detail the creation of five new IANA
+   registries:
+
+5.1.  QoS Parameters Registry
+
+              +===============================+============+
+              | QoS Parameter                 | Key        |
+              +===============================+============+
+              | Traffic Prioritization        | 0          |
+              +-------------------------------+------------+
+              | Retransmission                | 1          |
+              +-------------------------------+------------+
+              | Latest-Only Delivery          | 2          |
+              +-------------------------------+------------+
+              | Bundle Retention              | 3          |
+              +-------------------------------+------------+
+              | Reserved for Future Expansion | 4..11      |
+              +-------------------------------+------------+
+              | Private Use                   | 12..23     |
+              +-------------------------------+------------+
+              | Reserved for Future Expansion | 24..2^64-1 |
+              +-------------------------------+------------+
+
+                                 Table 1
+
+5.2.  Traffic Prioritization Registry
+
+              +===============================+============+
+              | Priority Class                | Range      |
+              +===============================+============+
+              | Expedited                     | 0          |
+              +-------------------------------+------------+
+              | Normal                        | 1..4       |
+              +-------------------------------+------------+
+              | Bulk                          | 5..8       |
+              +-------------------------------+------------+
+              | Reserved for Future Expansion | 9..15      |
+              +-------------------------------+------------+
+              | Private Use                   | 16..23     |
+              +-------------------------------+------------+
+              | Reserved for Future Expansion | 24..2^64-1 |
+              +-------------------------------+------------+
+
+                                 Table 2
+
+5.3.  Retransmission Registry
+
+             +===============================+==============+
+             | Retransmission Requirement    | Range        |
+             +===============================+==============+
+             | Reserved for Future Expansion | -2^64+1..-24 |
+             +-------------------------------+--------------+
+             | Private Use                   | -24..-13     |
+             +-------------------------------+--------------+
+             | Reserved for Future Expansion | -12..-3      |
+             +-------------------------------+--------------+
+             | No Retransmission If Possible | -2           |
+             +-------------------------------+--------------+
+             | No Retransmission Allowed     | -1           |
+             +-------------------------------+--------------+
+             | Reserved                      | 0            |
+             +-------------------------------+--------------+
+             | Retransmission Required       | 1            |
+             +-------------------------------+--------------+
+             | Retransmission If Possible    | 2            |
+             +-------------------------------+--------------+
+             | Reserved for Future Expansion | 3..12        |
+             +-------------------------------+--------------+
+             | Private Use                   | 13..23       |
+             +-------------------------------+--------------+
+             | Reserved for Future Expansion | 24..2^64-1   |
+             +-------------------------------+--------------+
+
+                                 Table 3
+
+5.4.  Latest-Only Delivery Registry
+
+              +===============================+============+
+              | Information Validity          | Range      |
+              +===============================+============+
+              | All                           | 0          |
+              +-------------------------------+------------+
+              | Latest-Only                   | 1          |
+              +-------------------------------+------------+
+              | Reserved for Future Expansion | 2..12      |
+              +-------------------------------+------------+
+              | Private Use                   | 13..23     |
+              +-------------------------------+------------+
+              | Reserved for Future Expansion | 24..2^64-1 |
+              +-------------------------------+------------+
+
+                                 Table 4
+
+5.5.  Bundle Retention Registry
+
+              +===============================+============+
+              | Information Validity          | Range      |
+              +===============================+============+
+              | Class 0                       | 0          |
+              +-------------------------------+------------+
+              | Class 1                       | 1          |
+              +-------------------------------+------------+
+              | Class 2                       | 2          |
+              +-------------------------------+------------+
+              | …                             | …          |
+              +-------------------------------+------------+
+              | Class 22                      | 22         |
+              +-------------------------------+------------+
+              | Class 23                      | 23         |
+              +-------------------------------+------------+
+              | Reserved for Future Expansion | 24..2^64-1 |
+              +-------------------------------+------------+
+
+                                 Table 5
+
+6.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8949]  Bormann, C. and P. Hoffman, "Concise Binary Object
+              Representation (CBOR)", STD 94, RFC 8949,
+              DOI 10.17487/RFC8949, December 2020,
+              <https://www.rfc-editor.org/rfc/rfc8949>.
+
+   [RFC9171]  Burleigh, S., Fall, K., and E. Birrane, III, "Bundle
+              Protocol Version 7", RFC 9171, DOI 10.17487/RFC9171,
+              January 2022, <https://www.rfc-editor.org/rfc/rfc9171>.
+
+   [RFC9172]  Birrane, III, E. and K. McKeever, "Bundle Protocol
+              Security (BPSec)", RFC 9172, DOI 10.17487/RFC9172, January
+              2022, <https://www.rfc-editor.org/rfc/rfc9172>.
+
+Acknowledgments
+
+   TODO acknowledge.
+
+Author's Address
+
+   Your Name Here
+   Your Organization Here
+   Email: your.email@example.com
