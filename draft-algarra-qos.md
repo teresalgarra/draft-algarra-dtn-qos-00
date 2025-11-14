@@ -93,10 +93,10 @@ BPv7 does not include intrinsic QoS signaling, so there is therefore a need for 
 
 ## Definitions
 
-*	User: entity or set of entities operating under the same SLA using the network for sending data from a single or multiple sources to a single or multiple destinations.
-*	Priority class: level of urgency assigned to a bundle, helping to determine the order in which it should be forwarded.
-*	Sub-priority class: secondary level of prioritization used to further classify bundles within a main priority class, adding granularity based on relative urgency within a priority class.
-*	Transmission volume: aggregate total size of bundles transmitted across a link, measured in bytes.
+- User: entity or set of entities operating under the same SLA using the network for sending data from a single or multiple sources to a single or multiple destinations.
+- Priority class: level of urgency assigned to a bundle, helping to determine the order in which it should be forwarded.
+- Sub-priority class: secondary level of prioritization used to further classify bundles within a main priority class, adding granularity based on relative urgency within a priority class.
+- Transmission volume: aggregate total size of bundles transmitted across a link, measured in bytes.
 
 ## Extension Block Description
 
