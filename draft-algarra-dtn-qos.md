@@ -87,12 +87,12 @@ There will be an image here.
 
 ### Traffic Prioritization
 
-Traffic prioritization (value 0 in the QoS Parameter Registry in Section 5.1) determines the forwarding order when multiple bundles are queued. 
+Traffic prioritization (value 0 in the QoS Parameter Registry in Section 5.1) determines the forwarding order when multiple bundles are queued.
 A new IANA registry, "Traffic Prioritization", is defined for the registration of traffic prioritization classes and the associated values; see Section 5.2.
 Bundles marked as expedited (value 0 in the Traffic Prioritization Registry in Section 5.2) MUST be forwarded before any other bundles from the same user.
 Bundles marked normal (values 1 to 4 in the Traffic Prioritization Registry in Section 5.2) MUST be forwarded before bulk bundles from that user.
 Bundles marked bulk (values 5 to 8 in the Traffic Prioritization Registry in Section 5.2) MUST NOT be forwarded if expedited or normal bundles from the user are present.
-In the case of several bundles with the same priority class and the same sub-priority class, they SHOULD be forwarded in a First-In, First-Out (FIFO) basis. 
+In the case of several bundles with the same priority class and the same sub-priority class, they SHOULD be forwarded in a First-In, First-Out (FIFO) basis.
 In the case of several bundles with the same priority class but different sub-priority classes, priority MUST decrease in ascending order.
 A volume-based fair scheduling algorithm MAY be used to avoid data starvation.
 Priorities SHOULD be used to inform the selection of parameters for underlying convergence layers if those implement priority schemes.
