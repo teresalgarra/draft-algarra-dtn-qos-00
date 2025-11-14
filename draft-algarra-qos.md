@@ -1,20 +1,20 @@
 ---
 title: " Quality of Service Extension Block for Bundle Protocol"
 abbrev: "qos"
-category: info
+category: std
 
-docname: draft-algarra-dtn-wos-00
+docname: draft-algarra-dtn-qos-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: Internet
+workgroup: dtn
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - dtn
+ - bp
+ - qos
 venue:
   group: WG
   type: Working Group
@@ -29,12 +29,6 @@ author:
     organization: Your Organization Here
     email: your.email@example.com
 
-normative:
-- [RFC9171] S. Burleigh, K. Fall, and E. Birrane, "RFC 9171: Bundle Protocol Version 7", DOI 10.17487/RFC9171, January 2022.
-- [RFC2119] S. Bradner, "RFC2119: Key words for use in RFCs to Indicate Requirement Levels", DOI 10.17487/RFC2119, March 1997.
-- [RFC8174] B. Leiba, "RFC 8174: Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words", DOI 10.17487/RFC8174, May 2017.
-- [RFC9172] E. Birrane , K. McKeever, “RFC 9172: Bundle Protocol Security (BPSec)”, DOI 10.17487/RFC9172, January 2022.
-- [RFC8949] C. Bormann, and P. Hoffman, "RFC 8949: Concise Binary Object Representation (CBOR)", DOI 10.17487/RFC8949, December 2020.
 ---
 --- abstract
 
