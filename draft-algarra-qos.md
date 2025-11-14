@@ -1,10 +1,10 @@
 ---
-title: " Quality of Service Extension Block for Bundle Protocol"
-abbrev: "qos"
+title: '' Quality of Service Extension Block for Bundle Protocol''
+abbrev: ''qos''
 category: std
 
 docname: draft-algarra-dtn-qos-latest
-submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
+submissiontype: IETF  # also: ''independent'', ''editorial'', ''IAB'', or ''IRTF''
 number:
 date:
 consensus: true
@@ -34,7 +34,7 @@ normative:
   [RFC8174]: https://www.rfc-editor.org/info/rfc8174
   [RFC9172]: https://www.rfc-editor.org/info/rfc9172
   [RFC8949]: https://www.rfc-editor.org/info/rfc8949
----
+
 --- abstract
 
 This document defines a Quality of Service (QoS) Extension Block for the Bundle Protocol Version 7 (BPv7).The QoS Extension Block enables users to request and indicate QoS parameters, such as traffic prioritization, retransmission, latest-only delivery, and bundle retention preference.The purpose of this extension is to enhance the efficiency of bundle forwarding and delivery according to user requirements while maintaining interoperability with existing BP implementations.
@@ -80,7 +80,7 @@ There will be an image here.
 The block type code MUST be <xx>.
 The block processing control flags Bit 1, Bit 2 and Bit 4 MAY be set to ‘0’ to allow bundle nodes not supporting this extension block to pass it transparently.
 The block-type-specific data MUST be encoded as a definite-length CBOR [RFC8949] byte string containing a definite-length CBOR map, with each map key identifying a QoS parameter, and the associated value specifying its setting.
-A new IANA registry, "UQEB Parameters", is defined for the registration of QoS parameters and the associated values; see Section 5.1.
+A new IANA registry, ''UQEB Parameters'', is defined for the registration of QoS parameters and the associated values; see Section 5.1.
 Each QoS parameter MAY appear if needed, but does not need to.
 Each QoS parameter MUST NOT appear more than once.
 
@@ -91,7 +91,7 @@ There will be an image here.
 ### Traffic Prioritization
 
 Traffic prioritization (value 0 in the QoS Parameter Registry in Section 5.1) determines the forwarding order when multiple bundles are queued. 
-A new IANA registry, "Traffic Prioritization", is defined for the registration of traffic prioritization classes and the associated values; see Section 5.2.
+A new IANA registry, ''Traffic Prioritization'', is defined for the registration of traffic prioritization classes and the associated values; see Section 5.2.
 Bundles marked as expedited (value 0 in the Traffic Prioritization Registry in Section 5.2) MUST be forwarded before any other bundles from the same user.
 Bundles marked normal (values 1 to 4 in the Traffic Prioritization Registry in Section 5.2) MUST be forwarded before bulk bundles from that user.
 Bundles marked bulk (values 5 to 8 in the Traffic Prioritization Registry in Section 5.2) MUST NOT be forwarded if expedited or normal bundles from the user are present.
@@ -104,7 +104,7 @@ Bundles without a priority marking MUST be treated as having value 5 (default bu
 ### Retransmission
 
 The retransmission parameter (value 1 in the QoS Parameter Registry in Section 5.1) defines whether an underlying protocol stack that provides retransmission shall be used.
-A new IANA registry, "Retransmission", is defined for the registration of retransmission requirements and the associated values; see Section 5.3.
+A new IANA registry, ''Retransmission'', is defined for the registration of retransmission requirements and the associated values; see Section 5.3.
 Bundles marked as retransmission required (value 1 in the Retransmission Registry in Section 5.3) MUST be dispatched via a protocol stack which applies retransmission in case of data loss.
 Bundles marked as retransmission if possible (value 2 in the Retransmission Registry in Section 5.3) MAY be dispatched via a protocol stack which applies retransmission in case of data loss if currently available, and via a protocol stack which doesn’t if none is available.
 Bundles marked as no retransmission allowed (value -1 in the Retransmission Registry in Section 5.3) MUST be dispatched via a protocol stack which does not apply retransmission in case of data loss.
@@ -114,7 +114,7 @@ Bundles without a retransmission marking or where the indication is unspecified 
 ### Latest-Only Delivery
 
 Latest-only delivery (value 2 in the QoS Parameter Registry in Section 5.1) prevents the transmission of old information if newer information is available.
-A new IANA registry, "Latest-Only Delivery", is defined for the registration of retransmission requirements and the associated values; see Section 5.4.
+A new IANA registry, ''Latest-Only Delivery'', is defined for the registration of retransmission requirements and the associated values; see Section 5.4.
 Bundles marked as all (value 0 in the Latest-Only Delivery Registry in Section 5.4) MUST proceed as usual.
 Bundles marked as latest-only (value 1 in the Latest-Only Delivery Registry in Section 5.4) MUST be discarded if a bundle with the same source node ID, destination endpoint ID, and a newer creation time is available.
 Bundles without a lates-only marking MUST be treated as having value 0 (all).
@@ -123,7 +123,7 @@ The latest bundle MUST be forwarded at the time the oldest discarded bundle woul
 ### Bundle Retention
 
 The bundle retention parameter (value 3 in the QoS Parameter Registry in Section 5.1) indicates the deletion order if a node runs out of storage for the user.
-A new IANA registry, "Bundle Retention", is defined for the registration of retransmission requirements and the associated values; see Section 5.5.
+A new IANA registry, ''Bundle Retention'', is defined for the registration of retransmission requirements and the associated values; see Section 5.5.
 Bundles marked as a certain class MUST NOT be deleted if bundles with a higher class value are in the storage.
 In case of several bundles of the same class, deletion MUST be performed starting with the shortest time to live left.
 Bundles without a bundle retention marking MUST be treated as having value 12.
@@ -212,6 +212,6 @@ The following sections detail the creation of five new IANA registries:
 --- back
 
 # Acknowledgments
-{:numbered="false"}
+{:numbered=''false''}
 
 TODO acknowledge.
