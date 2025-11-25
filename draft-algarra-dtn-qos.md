@@ -13,9 +13,9 @@ area: Internet
 workgroup: "Delay/Disruption Tolerant Networking"
 keyword:
 
-  - dtn
-  - bp
-  - qos
+- dtn
+- bp
+- qos
 
 venue:
   group: "Delay/Disruption Tolerant Networking"
@@ -27,14 +27,12 @@ venue:
 
 author:
 
-  - fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+- fullname: Your Name Here
+  organization: Your Organization Here
+  email: your.email@example.com
 
 normative:
-  RFC9171: https://www.rfc-editor.org/info/rfc9171
-  RFC9172: https://www.rfc-editor.org/info/rfc9172
-  RFC8949: https://www.rfc-editor.org/info/rfc8949
+
 --- abstract
 
 This document defines a Quality of Service (QoS) Extension Block for the Bundle Protocol Version 7 (BPv7). The QoS Extension Block enables users to request and indicate QoS parameters, such as traffic prioritization, retransmission, latest-only delivery, and bundle retention preference. The purpose of this extension is to enhance the efficiency of bundle forwarding and delivery according to user requirements while maintaining interoperability with existing BP implementations.
@@ -43,7 +41,7 @@ This document defines a Quality of Service (QoS) Extension Block for the Bundle 
 
 # Introduction
 
-This document describes the structure of an extension block for Bundle Protocol Version 7 (BPv7) as defined in [RFC9171]. It can be added to a bundle to signal user-requested QoS parameters which indicate to the nodes how to handle the bundle based on the desired QoS characteristics.
+This document describes the structure of an extension block for Bundle Protocol Version 7 (BPv7) as defined in {{!RFC9171}}. It can be added to a bundle to signal user-requested QoS parameters which indicate to the nodes how to handle the bundle based on the desired QoS characteristics.
 
 QoS mechanisms enhance the efficiency of communications over
 constrained networks by prioritizing traffic, reducing unnecessary retransmissions, and enabling context-aware bundle handling. In environments like space, latencies are high, contacts intermittent and bandwidth and storage limited, making QoS signaling essential to effective resource management.
@@ -54,7 +52,6 @@ BPv7 does not include intrinsic QoS signaling, so there is therefore a need for 
 - Retransmission: desired use of reliable or unreliable convergence layers and underlying protocols.
 - Latest-Only Delivery: indication to drop outdated information from the same flow.
 - Bundle Storage: deletion order preference when node storage is full.
-
 
 # Conventions and Definitions
 
@@ -71,16 +68,16 @@ BPv7 does not include intrinsic QoS signaling, so there is therefore a need for 
 
 ## Extension Block Description
 
-The User QoS Extension Block (UQEB) MUST follow the canonical bundle block format defined in [RFC9171].
+The User QoS Extension Block (UQEB) MUST follow the canonical bundle block format defined in {{RFC9171}}.
 The UQEB MUST be added only by the source node of a bundle.
 The UQEB MUST NOT be modified by any other node.
-Integrity and authentication MUST be ensured for the extension block. A Bundle Integrity Block (BIB) as defined in [RFC9172] MAY be used, unless an external system can guarantee the same results.
+Integrity and authentication MUST be ensured for the extension block. A Bundle Integrity Block (BIB) as defined in {{!RFC9172}} MAY be used, unless an external system can guarantee the same results.
 
 There will be an image here.
 
 The block type code MUST be assigned.
 The block processing control flags Bit 1, Bit 2 and Bit 4 MAY be set to ‘0’ to allow bundle nodes not supporting this extension block to pass it transparently.
-The block-type-specific data MUST be encoded as a definite-length CBOR [RFC8949] byte string containing a definite-length CBOR map, with each map key identifying a QoS parameter, and the associated value specifying its setting.
+The block-type-specific data MUST be encoded as a definite-length CBOR {{!RFC8949}} byte string containing a definite-length CBOR map, with each map key identifying a QoS parameter, and the associated value specifying its setting.
 A new IANA registry, "UQEB Parameters", is defined for the registration of QoS parameters and the associated values; see Section 5.1.
 Each QoS parameter MAY appear if needed, but does not need to.
 Each QoS parameter MUST NOT appear more than once.
@@ -135,7 +132,7 @@ Bundles without a bundle retention marking MUST be treated as having value 12.
 
 There is a concern that intermediate nodes may intentionally or unintentionally alter the information contained in the UQEB. This may result in bundles being forwarded in the incorrect order, or dropped inappropriately. Such manipulation could even be used to deny service to legitimate traffic or to gain preferential treatment for unauthorized bundles.
 Therefore, the integrity and authenticity protection of the UQEB  MUST be ensured.
-BPSec as specified in [RFC9172] SHOULD be used, unless an external system can provide the same degree of protection.
+BPSec as specified in {{RFC9172}} SHOULD be used, unless an external system can provide the same degree of protection.
 
 ## Concerns About Malicious Behavior
 
