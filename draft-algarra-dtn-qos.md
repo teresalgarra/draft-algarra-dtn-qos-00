@@ -1,6 +1,6 @@
 ---
 title: "Quality of Service Extension Block for Bundle Protocol"
-abbrev: "qos"
+abbrev: "BP-QoS"
 category: std
 
 docname: draft-algarra-dtn-qos-latest
@@ -10,20 +10,23 @@ date:
 consensus: true
 v: 3
 area: Internet
-workgroup: dtn
+workgroup: "Delay/Disruption Tolerant Networking"
 keyword:
+
   - dtn
   - bp
   - qos
+
 venue:
-  group: WG
+  group: "Delay/Disruption Tolerant Networking"
   type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
+  mail: "dtn@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/dtn/"
   github: USER/REPO
   latest: https://example.com/LATEST
 
 author:
+
   - fullname: Your Name Here
     organization: Your Organization Here
     email: your.email@example.com
