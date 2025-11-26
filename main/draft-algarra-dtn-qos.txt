@@ -2,10 +2,10 @@
 
 
 
-dtn                                                           Y. N. Here
+Delay/Disruption Tolerant Networking                          Y. N. Here
 Internet-Draft                                    Your Organization Here
-Intended status: Standards Track                        14 November 2025
-Expires: 18 May 2026
+Intended status: Standards Track                        26 November 2025
+Expires: 30 May 2026
 
 
          Quality of Service Extension Block for Bundle Protocol
@@ -30,9 +30,10 @@ About This Document
    https://example.com/LATEST.  Status information for this document may
    be found at https://datatracker.ietf.org/doc/draft-algarra-dtn-qos/.
 
-   Discussion of this document takes place on the WG Working Group
-   mailing list (mailto:WG@example.com), which is archived at
-   https://example.com/WG.
+   Discussion of this document takes place on the Delay/Disruption
+   Tolerant Networking Working Group mailing list (mailto:dtn@ietf.org),
+   which is archived at https://mailarchive.ietf.org/arch/browse/dtn/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/dtn/.
 
    Source for this draft and an issue tracker can be found at
    https://github.com/USER/REPO.
@@ -52,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 May 2026.
+   This Internet-Draft will expire on 30 May 2026.
 
 Copyright Notice
 
@@ -76,7 +77,7 @@ Table of Contents
      3.1.  Definitions
      3.2.  Extension Block Description
      3.3.  QoS Parameters
-       3.3.1.  Traffic Prioritization
+       3.3.1.  Traffic Priority
        3.3.2.  Retransmission
        3.3.3.  Latest-Only Delivery
        3.3.4.  Bundle Retention
@@ -85,10 +86,10 @@ Table of Contents
      4.2.  Concerns About Malicious Behavior
    5.  IANA Considerations
      5.1.  QoS Parameters Registry
-     5.2.  Traffic Prioritization Registry
-     5.3.  Retransmission Registry
-     5.4.  Latest-Only Delivery Registry
-     5.5.  Bundle Retention Registry
+     5.2.  QoS Traffic Priority Registry
+     5.3.  QoS Retransmission Requirement Registry
+     5.4.  QoS Latest-Only Delivery Registry
+     5.5.  QoS Bundle Retention Registry
    6.  Normative References
    Acknowledgments
    Author's Address
@@ -110,12 +111,18 @@ Table of Contents
 
    BPv7 does not include intrinsic QoS signaling, so there is therefore
    a need for a standardized manner for QoS preferences to be indicated.
-   The QoS parameters supported by this specification include: - Traffic
-   Prioritization: bundle forwarding precedence. - Retransmission:
-   desired use of reliable or unreliable convergence layers and
-   underlying protocols. - Latest-Only Delivery: indication to drop
-   outdated information from the same flow. - Bundle Storage: deletion
-   order preference when node storage is full.
+   The QoS parameters supported by this specification include:
+
+   *  Traffic Priority: bundle forwarding precedence.
+
+   *  Retransmission: desired use of reliable or unreliable convergence
+      layers and underlying protocols.
+
+   *  Latest-Only Delivery: indication to drop outdated information from
+      the same flow.
+
+   *  Bundle Storage: deletion order preference when node storage is
+      full.
 
 2.  Conventions and Definitions
 
@@ -171,18 +178,18 @@ Table of Contents
 
 3.3.  QoS Parameters
 
-3.3.1.  Traffic Prioritization
+3.3.1.  Traffic Priority
 
-   Traffic prioritization (value 0 in the QoS Parameter Registry in
+   Traffic Priority (value 0 in the QoS Parameter Registry in
    Section 5.1) determines the forwarding order when multiple bundles
-   are queued.  A new IANA registry, "Traffic Prioritization", is
-   defined for the registration of traffic prioritization classes and
-   the associated values; see Section 5.2.  Bundles marked as expedited
-   (value 0 in the Traffic Prioritization Registry in Section 5.2) MUST
-   be forwarded before any other bundles from the same user.  Bundles
-   marked normal (values 1 to 4 in the Traffic Prioritization Registry
-   in Section 5.2) MUST be forwarded before bulk bundles from that user.
-   Bundles marked bulk (values 5 to 8 in the Traffic Prioritization
+   are queued.  A new IANA registry, "QoS Traffic Priority", is defined
+   for the registration of traffic prioritization classes and the
+   associated values; see Section 5.2.  Bundles marked as expedited
+   (value 0 in the QoS Traffic Priority Registry in Section 5.2) MUST be
+   forwarded before any other bundles from the same user.  Bundles
+   marked normal (values 1 to 4 in the QoS Traffic Priority Registry in
+   Section 5.2) MUST be forwarded before bulk bundles from that user.
+   Bundles marked bulk (values 5 to 8 in the QoS Traffic Priority
    Registry in Section 5.2) MUST NOT be forwarded if expedited or normal
    bundles from the user are present.  In the case of several bundles
    with the same priority class and the same sub-priority class, they
@@ -199,50 +206,52 @@ Table of Contents
 
    The retransmission parameter (value 1 in the QoS Parameter Registry
    in Section 5.1) defines whether an underlying protocol stack that
-   provides retransmission shall be used.  A new IANA registry,
-   "Retransmission", is defined for the registration of retransmission
-   requirements and the associated values; see Section 5.3.  Bundles
-   marked as retransmission required (value 1 in the Retransmission
-   Registry in Section 5.3) MUST be dispatched via a protocol stack
-   which applies retransmission in case of data loss.  Bundles marked as
-   retransmission if possible (value 2 in the Retransmission Registry in
-   Section 5.3) MAY be dispatched via a protocol stack which applies
-   retransmission in case of data loss if currently available, and via a
-   protocol stack which doesn’t if none is available.  Bundles marked as
-   no retransmission allowed (value -1 in the Retransmission Registry in
-   Section 5.3) MUST be dispatched via a protocol stack which does not
-   apply retransmission in case of data loss.  Bundles marked as no
-   retransmission if possible (value -2 in the Retransmission Registry
-   in Section 5.3) SHOULD be dispatched via a protocol stack which does
-   not apply retransmission in case of data loss if currently available,
-   and via a protocol stack which does if none is available.  Bundles
+   provides retransmission shall be used.  A new IANA registry, "QoS
+   Retransmission Requirement", is defined for the registration of
+   retransmission requirements and the associated values; see
+   Section 5.3.  Bundles marked as retransmission required (value 1 in
+   the QoS Retransmission Requirement in Section 5.3) MUST be dispatched
+   via a protocol stack which applies retransmission in case of data
+   loss.  Bundles marked as retransmission if possible (value 2 in the
+   QoS Retransmission Requirement in Section 5.3) MAY be dispatched via
+   a protocol stack which applies retransmission in case of data loss if
+   currently available, and via a protocol stack which doesn’t if none
+   is available.  Bundles marked as no retransmission allowed (value -1
+   in the QoS Retransmission Requirement in Section 5.3) MUST be
+   dispatched via a protocol stack which does not apply retransmission
+   in case of data loss.  Bundles marked as no retransmission if
+   possible (value -2 in the QoS Retransmission Requirement in
+   Section 5.3) SHOULD be dispatched via a protocol stack which does not
+   apply retransmission in case of data loss if currently available, and
+   via a protocol stack which does if none is available.  Bundles
    without a retransmission marking or where the indication is
-   unspecified (value 0 in the Retransmission Registry in Section 5.3),
-   the implementation SHOULD use the default option available.
+   unspecified (value 0 in the QoS Retransmission Requirement in
+   Section 5.3), the implementation SHOULD use the default option
+   available.
 
 3.3.3.  Latest-Only Delivery
 
    Latest-only delivery (value 2 in the QoS Parameter Registry in
    Section 5.1) prevents the transmission of old information if newer
-   information is available.  A new IANA registry, "Latest-Only
+   information is available.  A new IANA registry, "QoS Latest-Only
    Delivery", is defined for the registration of retransmission
    requirements and the associated values; see Section 5.4.  Bundles
-   marked as all (value 0 in the Latest-Only Delivery Registry in
+   marked as all (value 0 in the QoS Latest-Only Delivery Registry in
    Section 5.4) MUST proceed as usual.  Bundles marked as latest-only
-   (value 1 in the Latest-Only Delivery Registry in Section 5.4) MUST be
-   discarded if a bundle with the same source node ID, destination
-   endpoint ID, and a newer creation time is available.  Bundles without
-   a lates-only marking MUST be treated as having value 0 (all).  The
-   latest bundle MUST be forwarded at the time the oldest discarded
-   bundle would have been forwarded.
+   (value 1 in the QoS Latest-Only Delivery Registry in Section 5.4)
+   MUST be discarded if a bundle with the same source node ID,
+   destination endpoint ID, and a newer creation time is available.
+   Bundles without a lates-only marking MUST be treated as having value
+   0 (all).  The latest bundle MUST be forwarded at the time the oldest
+   discarded bundle would have been forwarded.
 
 3.3.4.  Bundle Retention
 
    The bundle retention parameter (value 3 in the QoS Parameter Registry
    in Section 5.1) indicates the deletion order if a node runs out of
-   storage for the user.  A new IANA registry, "Bundle Retention", is
-   defined for the registration of retransmission requirements and the
-   associated values; see Section 5.5.  Bundles marked as a certain
+   storage for the user.  A new IANA registry, "QoS Bundle Retention",
+   is defined for the registration of retransmission requirements and
+   the associated values; see Section 5.5.  Bundles marked as a certain
    class MUST NOT be deleted if bundles with a higher class value are in
    the storage.  In case of several bundles of the same class, deletion
    MUST be performed starting with the shortest time to live left.
@@ -286,115 +295,222 @@ Table of Contents
 
 5.1.  QoS Parameters Registry
 
-              +===============================+============+
-              | QoS Parameter                 | Key        |
-              +===============================+============+
-              | Traffic Prioritization        | 0          |
-              +-------------------------------+------------+
-              | Retransmission                | 1          |
-              +-------------------------------+------------+
-              | Latest-Only Delivery          | 2          |
-              +-------------------------------+------------+
-              | Bundle Retention              | 3          |
-              +-------------------------------+------------+
-              | Reserved for Future Expansion | 4..11      |
-              +-------------------------------+------------+
-              | Private Use                   | 12..23     |
-              +-------------------------------+------------+
-              | Reserved for Future Expansion | 24..2^64-1 |
-              +-------------------------------+------------+
+   IANA is requested to create a new registry entitled "QoS Parameters",
+   in the existing "Bundle Protocol" registry group.  The registration
+   procedures for this registry, using terms defined in [RFC8126], is:
 
-                                 Table 1
+   +============+===============================+
+   |   Values   | Registration Procedure        |
+   +============+===============================+
+   |   0..11    | Standards Action              |
+   +------------+-------------------------------+
+   |   12..23   | Private Use                   |
+   +------------+-------------------------------+
+   | 24..2^64-1 | Reserved for future expansion |
+   +------------+-------------------------------+
 
-5.2.  Traffic Prioritization Registry
+   Table 1: QoS Parameters registration policies
 
-              +===============================+============+
-              | Priority Class                | Range      |
-              +===============================+============+
-              | Expedited                     | 0          |
-              +-------------------------------+------------+
-              | Normal                        | 1..4       |
-              +-------------------------------+------------+
-              | Bulk                          | 5..8       |
-              +-------------------------------+------------+
-              | Reserved for Future Expansion | 9..15      |
-              +-------------------------------+------------+
-              | Private Use                   | 16..23     |
-              +-------------------------------+------------+
-              | Reserved for Future Expansion | 24..2^64-1 |
-              +-------------------------------+------------+
+   The initial values for the registry are:
 
-                                 Table 2
+   +======+============================================+===============+
+   | Type | Parameter                                  | Reference     |
+   +======+============================================+===============+
+   |  0   | Traffic Priority (Section 3.3.1)           | This document |
+   +------+--------------------------------------------+---------------+
+   |  1   | Retransmission Requirement                 | This document |
+   |      | (Section 3.3.2)                            |               |
+   +------+--------------------------------------------+---------------+
+   |  2   | Latest-only Delivery                       | This document |
+   |      | (Section 3.3.3)                            |               |
+   +------+--------------------------------------------+---------------+
+   |  3   | Bundle Retention (Section 3.3.4)           | This document |
+   +------+--------------------------------------------+---------------+
 
-5.3.  Retransmission Registry
+                   Table 2: QoS Parameters initial values
 
-             +===============================+==============+
-             | Retransmission Requirement    | Range        |
-             +===============================+==============+
-             | Reserved for Future Expansion | -2^64+1..-24 |
-             +-------------------------------+--------------+
-             | Private Use                   | -24..-13     |
-             +-------------------------------+--------------+
-             | Reserved for Future Expansion | -12..-3      |
-             +-------------------------------+--------------+
-             | No Retransmission If Possible | -2           |
-             +-------------------------------+--------------+
-             | No Retransmission Allowed     | -1           |
-             +-------------------------------+--------------+
-             | Reserved                      | 0            |
-             +-------------------------------+--------------+
-             | Retransmission Required       | 1            |
-             +-------------------------------+--------------+
-             | Retransmission If Possible    | 2            |
-             +-------------------------------+--------------+
-             | Reserved for Future Expansion | 3..12        |
-             +-------------------------------+--------------+
-             | Private Use                   | 13..23       |
-             +-------------------------------+--------------+
-             | Reserved for Future Expansion | 24..2^64-1   |
-             +-------------------------------+--------------+
+5.2.  QoS Traffic Priority Registry
 
-                                 Table 3
+   IANA is requested to create a new registry entitled "QoS Traffic
+   Priority", in the existing "Bundle Protocol" registry group.  The
+   registration procedures for this registry, using terms defined in
+   [RFC8126], is:
 
-5.4.  Latest-Only Delivery Registry
+   +============+===============================+
+   |   Values   | Registration Procedure        |
+   +============+===============================+
+   |   0..15    | Standards Action              |
+   +------------+-------------------------------+
+   |   16..23   | Private Use                   |
+   +------------+-------------------------------+
+   | 24..2^64-1 | Reserved for future expansion |
+   +------------+-------------------------------+
 
-              +===============================+============+
-              | Information Validity          | Range      |
-              +===============================+============+
-              | All                           | 0          |
-              +-------------------------------+------------+
-              | Latest-Only                   | 1          |
-              +-------------------------------+------------+
-              | Reserved for Future Expansion | 2..12      |
-              +-------------------------------+------------+
-              | Private Use                   | 13..23     |
-              +-------------------------------+------------+
-              | Reserved for Future Expansion | 24..2^64-1 |
-              +-------------------------------+------------+
+     Table 3: QoS Traffic Priority registration
+                      policies
 
-                                 Table 4
+   The initial values for the registry are:
 
-5.5.  Bundle Retention Registry
+   +========+================+===============+
+   | Values | Priority Class | Reference     |
+   +========+================+===============+
+   |   0    | Expedited      | This document |
+   +--------+----------------+---------------+
+   |  1..4  | Normal         | This document |
+   +--------+----------------+---------------+
+   |  5..8  | Bulk           | This document |
+   +--------+----------------+---------------+
 
-              +===============================+============+
-              | Information Validity          | Range      |
-              +===============================+============+
-              | Class 0                       | 0          |
-              +-------------------------------+------------+
-              | Class 1                       | 1          |
-              +-------------------------------+------------+
-              | Class 2                       | 2          |
-              +-------------------------------+------------+
-              | …                             | …          |
-              +-------------------------------+------------+
-              | Class 22                      | 22         |
-              +-------------------------------+------------+
-              | Class 23                      | 23         |
-              +-------------------------------+------------+
-              | Reserved for Future Expansion | 24..2^64-1 |
-              +-------------------------------+------------+
+      Table 4: QoS Traffic Priority initial
+                      values
 
-                                 Table 5
+5.3.  QoS Retransmission Requirement Registry
+
+   IANA is requested to create a new registry entitled "QoS
+   Retransmission Requirement", in the existing "Bundle Protocol"
+   registry group.  The registration procedures for this registry, using
+   terms defined in [RFC8126], is:
+
+   +==============+===============================+
+   |    Values    | Retransmission Requirement    |
+   +==============+===============================+
+   | -2^64+1..-24 | Reserved for future expansion |
+   +--------------+-------------------------------+
+   |   -24..-13   | Private Use                   |
+   +--------------+-------------------------------+
+   |   -12..12    | Standards Action              |
+   +--------------+-------------------------------+
+   |    13..23    | Private Use                   |
+   +--------------+-------------------------------+
+   |  24..2^64-1  | Reserved for future expansion |
+   +--------------+-------------------------------+
+
+       Table 5: QoS Retransmission Requirement
+                registration policies
+
+   The initial values for the registry are:
+
+   +=======+===============================+===============+
+   | Value | Retransmission Requirement    | Reference     |
+   +=======+===============================+===============+
+   |   -2  | No Retransmission If Possible | This document |
+   +-------+-------------------------------+---------------+
+   |   -1  | No Retransmission Allowed     | This document |
+   +-------+-------------------------------+---------------+
+   |   0   | Reserved                      | This document |
+   +-------+-------------------------------+---------------+
+   |   1   | Retransmission Required       | This document |
+   +-------+-------------------------------+---------------+
+   |   2   | Retransmission If Possible    | This document |
+   +-------+-------------------------------+---------------+
+
+     Table 6: QoS Retransmission Requirement initial values
+
+5.4.  QoS Latest-Only Delivery Registry
+
+   IANA is requested to create a new registry entitled "QoS Latest-Only
+   Delivery", in the existing "Bundle Protocol" registry group.  The
+   registration procedures for this registry, using terms defined in
+   [RFC8126], is:
+
+   +============+===============================+
+   |   Values   | Registration Procedure        |
+   +============+===============================+
+   |   0..12    | Standards Action              |
+   +------------+-------------------------------+
+   |   13..23   | Private Use                   |
+   +------------+-------------------------------+
+   | 24..2^64-1 | Reserved for future expansion |
+   +------------+-------------------------------+
+
+         Table 7: QoS Latest-Only Delivery
+               registration policies
+
+   The initial values for the registry are:
+
+   +=======+======================+===============+
+   | Value | Information Validity | Reference     |
+   +=======+======================+===============+
+   |   0   | All                  | This document |
+   +-------+----------------------+---------------+
+   |   1   | Latest-Only          | This document |
+   +-------+----------------------+---------------+
+
+   Table 8: QoS Latest-Only Delivery initial values
+
+5.5.  QoS Bundle Retention Registry
+
+   IANA is requested to create a new registry entitled "QoS Bundle
+   Retention", in the existing "Bundle Protocol" registry group.  The
+   registration procedures for this registry, using terms defined in
+   [RFC8126], is:
+
+   +============+===============================+
+   |   Values   | Registration Procedure        |
+   +============+===============================+
+   |   0..23    | Standards Action              |
+   +------------+-------------------------------+
+   | 24..2^64-1 | Reserved for future expansion |
+   +------------+-------------------------------+
+
+     Table 9: QoS Bundle Retention registration
+                      policies
+
+   The initial values for the registry are:
+
+   +=======+========================+===============+
+   | Value | Bundle Retention Class | Reference     |
+   +=======+========================+===============+
+   |   0   | Class 0                | This document |
+   +-------+------------------------+---------------+
+   |   1   | Class 1                | This document |
+   +-------+------------------------+---------------+
+   |   2   | Class 2                | This document |
+   +-------+------------------------+---------------+
+   |   3   | Class 3                | This document |
+   +-------+------------------------+---------------+
+   |   4   | Class 4                | This document |
+   +-------+------------------------+---------------+
+   |   5   | Class 5                | This document |
+   +-------+------------------------+---------------+
+   |   6   | Class 6                | This document |
+   +-------+------------------------+---------------+
+   |   7   | Class 7                | This document |
+   +-------+------------------------+---------------+
+   |   8   | Class 8                | This document |
+   +-------+------------------------+---------------+
+   |   9   | Class 9                | This document |
+   +-------+------------------------+---------------+
+   |   10  | Class 10               | This document |
+   +-------+------------------------+---------------+
+   |   11  | Class 11               | This document |
+   +-------+------------------------+---------------+
+   |   12  | Class 12               | This document |
+   +-------+------------------------+---------------+
+   |   13  | Class 13               | This document |
+   +-------+------------------------+---------------+
+   |   14  | Class 14               | This document |
+   +-------+------------------------+---------------+
+   |   15  | Class 15               | This document |
+   +-------+------------------------+---------------+
+   |   16  | Class 16               | This document |
+   +-------+------------------------+---------------+
+   |   17  | Class 17               | This document |
+   +-------+------------------------+---------------+
+   |   18  | Class 18               | This document |
+   +-------+------------------------+---------------+
+   |   19  | Class 19               | This document |
+   +-------+------------------------+---------------+
+   |   20  | Class 20               | This document |
+   +-------+------------------------+---------------+
+   |   21  | Class 21               | This document |
+   +-------+------------------------+---------------+
+   |   22  | Class 22               | This document |
+   +-------+------------------------+---------------+
+   |   23  | Class 23               | This document |
+   +-------+------------------------+---------------+
+
+     Table 10: QoS Bundle Retention initial values
 
 6.  Normative References
 
@@ -402,6 +518,11 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, DOI 10.17487/RFC8126, June 2017,
+              <https://www.rfc-editor.org/rfc/rfc8126>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
