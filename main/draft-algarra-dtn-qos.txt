@@ -4,8 +4,8 @@
 
 Delay/Disruption Tolerant Networking                          Y. N. Here
 Internet-Draft                                    Your Organization Here
-Intended status: Standards Track                        26 November 2025
-Expires: 30 May 2026
+Intended status: Standards Track                        27 November 2025
+Expires: 31 May 2026
 
 
          Quality of Service Extension Block for Bundle Protocol
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 May 2026.
+   This Internet-Draft will expire on 31 May 2026.
 
 Copyright Notice
 
@@ -160,7 +160,8 @@ Table of Contents
    [RFC9172] MAY be used, unless an external system can guarantee the
    same results.
 
-   There will be an image here.
+   {% figure imgs/bundle_structure.svg %} Bundle structure including the
+   UQEB. {% endfigure %}
 
    The block type code MUST be assigned.  The block processing control
    flags Bit 1, Bit 2 and Bit 4 MAY be set to ‘0’ to allow bundle nodes
@@ -174,7 +175,7 @@ Table of Contents
    but does not need to.  Each QoS parameter MUST NOT appear more than
    once.
 
-   There will be an image here.
+   {% figure imgs/uqeb.svg %} UQEB structure. {% endfigure %}
 
 3.3.  QoS Parameters
 
