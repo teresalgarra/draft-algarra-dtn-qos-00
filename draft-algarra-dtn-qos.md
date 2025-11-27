@@ -73,7 +73,9 @@ The UQEB MUST be added only by the source node of a bundle.
 The UQEB MUST NOT be modified by any other node.
 Integrity and authentication MUST be ensured for the extension block. A Bundle Integrity Block (BIB) as defined in {{!RFC9172}} MAY be used, unless an external system can guarantee the same results.
 
-There will be an image here.
+{% figure imgs/bundle_structure.svg %}
+Bundle structure including the UQEB.
+{% endfigure %}
 
 The block type code MUST be assigned.
 The block processing control flags Bit 1, Bit 2 and Bit 4 MAY be set to ‘0’ to allow bundle nodes not supporting this extension block to pass it transparently.
@@ -82,7 +84,10 @@ A new IANA registry, "UQEB Parameters", is defined for the registration of QoS p
 Each QoS parameter MAY appear if needed, but does not need to.
 Each QoS parameter MUST NOT appear more than once.
 
-There will be an image here.
+{% figure imgs/uqeb.svg %}
+UQEB structure.
+{% endfigure %}
+
 
 ## QoS Parameters
 
